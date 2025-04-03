@@ -28,11 +28,14 @@ function App() {
   const [password, setPassword] = useState('');
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
   const [loading, setLoading] = useState(false);
+  
+    const server_url = process.env.REACT_APP_SERVER_URL;
+    // console.log(server_url)
 
   const fetchTasks = useCallback(() => {
     if (token) {
       setLoading(true);
-      axios.get('http://localhost:5000/api/tasks', {
+      axios.get(`${server_url}/api/tasks`, {
         headers: { Authorization: `Bearer ${token}` }
       })
         .then(res => { setTasks(res.data); setLoading(false); })
@@ -43,7 +46,7 @@ function App() {
   const addTask = useCallback(() => {
     if (title.trim() && token) {
       setLoading(true);
-      axios.post('http://localhost:5000/api/tasks', { title }, {
+      axios.post(`${server_url}/api/tasks`, { title }, {
         headers: { Authorization: `Bearer ${token}` }
       })
         .then(res => {
@@ -75,7 +78,7 @@ function App() {
     setLoading(true);
 
     // Send the request to the server
-    axios.post(`http://localhost:5000${url}`, { username, password })
+    axios.post(`${server_url}${url}`, { username, password })
       .then(res => {
         if (!isRegister) {
           // Handle login success
@@ -129,9 +132,6 @@ function App() {
   useEffect(() => { localStorage.setItem('darkMode', darkMode); }, [darkMode]);
 
   const theme = getTheme(darkMode ? 'dark' : 'light');
-
-  const server_url = process.env.REACT_APP_SERVER_URL;
-  console.log(server_url)
 
   return (
     <ThemeProvider theme={theme}>
@@ -196,7 +196,7 @@ function App() {
                         setEditingTask={setEditingTask}
                         deleteTask={(id) => {
                           setLoading(true);
-                          axios.delete(`${server_url}/tasks/${id}`, {
+                          axios.delete(`${server_url}/api/tasks/${id}`, {
                             headers: { Authorization: `Bearer ${token}` }
                           })
                             .then(() => {
@@ -211,7 +211,7 @@ function App() {
                         }}
                         toggleComplete={(id, completed) => {
                           setLoading(true);
-                          axios.put(`${server_url}/tasks/${id}`, { completed: !completed }, {
+                          axios.put(`${server_url}/api/tasks/${id}`, { completed: !completed }, {
                             headers: { Authorization: `Bearer ${token}` }
                           })
                             .then(res => {
@@ -226,7 +226,7 @@ function App() {
                         }}
                         saveEdit={(id) => {
                           setLoading(true);
-                          axios.put(`${server_url}/tasks/${id}/edit`, { title: editTitle }, {
+                          axios.put(`${server_url}/api/tasks/${id}/edit`, { title: editTitle }, {
                             headers: { Authorization: `Bearer ${token}` }
                           })
                             .then(res => {

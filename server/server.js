@@ -46,6 +46,10 @@ const authMiddleware = (req, res, next) => {
 // Auth routes
 app.use('/api/auth', authRoutes);
 
+app.get('/', (req,res)=>{
+  res.send("Server is live")
+})
+
 // Task routes (protected)
 app.get('/api/tasks', authMiddleware, async (req, res) => {
   const tasks = await Task.find({ userId: req.userId });
