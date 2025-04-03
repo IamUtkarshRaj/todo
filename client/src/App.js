@@ -130,6 +130,9 @@ function App() {
 
   const theme = getTheme(darkMode ? 'dark' : 'light');
 
+  const server_url = process.env.REACT_APP_SERVER_URL;
+  console.log(server_url)
+
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', bgcolor: 'background.default' }}>
@@ -193,7 +196,7 @@ function App() {
                         setEditingTask={setEditingTask}
                         deleteTask={(id) => {
                           setLoading(true);
-                          axios.delete(`http://localhost:5000/api/tasks/${id}`, {
+                          axios.delete(`${server_url}/tasks/${id}`, {
                             headers: { Authorization: `Bearer ${token}` }
                           })
                             .then(() => {
@@ -208,7 +211,7 @@ function App() {
                         }}
                         toggleComplete={(id, completed) => {
                           setLoading(true);
-                          axios.put(`http://localhost:5000/api/tasks/${id}`, { completed: !completed }, {
+                          axios.put(`${server_url}/tasks/${id}`, { completed: !completed }, {
                             headers: { Authorization: `Bearer ${token}` }
                           })
                             .then(res => {
@@ -223,7 +226,7 @@ function App() {
                         }}
                         saveEdit={(id) => {
                           setLoading(true);
-                          axios.put(`http://localhost:5000/api/tasks/${id}/edit`, { title: editTitle }, {
+                          axios.put(`${server_url}/tasks/${id}/edit`, { title: editTitle }, {
                             headers: { Authorization: `Bearer ${token}` }
                           })
                             .then(res => {
