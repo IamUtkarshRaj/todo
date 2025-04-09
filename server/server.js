@@ -11,7 +11,11 @@ dotenv.config({ path: '.env.local' });
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+
+app.use(cors({
+  origin: 'https://todo-red-one.vercel.app/', // Replace with your Vercel URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow necessary methods
+}));
 
 // Use the correct environment variable
 const MONGO_URI = process.env.MONGO_URI;

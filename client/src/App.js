@@ -28,9 +28,9 @@ function App() {
   const [password, setPassword] = useState('');
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
   const [loading, setLoading] = useState(false);
-  
-    const server_url = process.env.REACT_APP_SERVER_URL;
-    // console.log(server_url)
+
+  const server_url = process.env.REACT_APP_SERVER_URL;
+  // console.log(server_url)
 
   const fetchTasks = useCallback(() => {
     if (token) {
@@ -65,10 +65,10 @@ function App() {
   const handleAuth = useCallback(() => {
     // Check if it's registration and password is empty
     if (isRegister && !password.trim()) {
-      setSnackbar({ 
-        open: true, 
-        message: 'Password is required for registration', 
-        severity: 'error' 
+      setSnackbar({
+        open: true,
+        message: 'Password is required for registration',
+        severity: 'error'
       });
       return; // Stop the function here if no password
     }
@@ -86,19 +86,19 @@ function App() {
           setToken(newToken);
           localStorage.setItem('token', newToken);
           setOpenAuth(false);
-          setSnackbar({ 
-            open: true, 
-            message: 'Logged in successfully!', 
-            severity: 'success' 
+          setSnackbar({
+            open: true,
+            message: 'Logged in successfully!',
+            severity: 'success'
           });
           fetchTasks();
         } else {
           // Handle registration success
           setIsRegister(false);
-          setSnackbar({ 
-            open: true, 
-            message: 'Registered successfully! Please log in.', 
-            severity: 'success' 
+          setSnackbar({
+            open: true,
+            message: 'Registered successfully! Please log in.',
+            severity: 'success'
           });
         }
         // Clear input fields
@@ -106,14 +106,14 @@ function App() {
         setPassword('');
         setLoading(false);
       })
-      .catch(err => { 
+      .catch(err => {
         // Handle errors
-        setSnackbar({ 
-          open: true, 
-          message: err.response?.data?.error || 'Authentication failed', 
-          severity: 'error' 
-        }); 
-        setLoading(false); 
+        setSnackbar({
+          open: true,
+          message: err.response?.data?.error || 'Authentication failed',
+          severity: 'error'
+        });
+        setLoading(false);
       });
   }, [isRegister, username, password, fetchTasks]);
 
